@@ -4,7 +4,10 @@ from typing import Optional, List, Dict, Any, Union
 from enum import Enum
 import pymongo
 
-application = FastAPI()
+# db=client.get_database("fastapi") 
+# item_transaction=db.get_collection("item_transaction")
+
+application = FastAPI() 
 
 class methodType(str, Enum):
     credit = "credit"
@@ -16,6 +19,9 @@ class Item(BaseModel):
     price: Optional[float] = None
     method: methodType
 
+uri="mongodb+srv://admin:<admin123>@cluster0.grl9mt1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+client=pymongo.MongoClient(uri)
     
 item_transaction = []
 
@@ -35,5 +41,5 @@ async def get_transaction(name: str, amount: float):
 
 @application.post("/transaction/")
 async def post_transaction(input_transaction: Item):
-    item_transaction.append(input_transaction)
+    # item_transaction.insert_one(input_transaction)
     return item_transaction
